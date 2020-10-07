@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@types/mongoose": "^5.7.36",
+    "chalk": "^4.1.0",
     "mongoose": "^5.10.8",
     "simplex-noise": "^2.4.0"
   }
