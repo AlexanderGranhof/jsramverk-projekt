@@ -1,1 +1,16 @@
-version: '3.8'
+version: '3'
+
+services: 
+    server:
+        build: ./server
+        entrypoint: npm run dev
+        environment: 
+            - MONGODB=mongodb
+        volumes: 
+            - ./server/src:/server/src
+            - ./server/node_modules:/server/node_modules
+        links: 
+            - mongodb
+
+    mongodb:
+        image: mongo:3.6-xenial
