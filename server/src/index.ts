@@ -10,7 +10,7 @@ const app = express()
 market.start()
 
 const server = app.listen(port, () => {
-    console.log(chalk.yellow('[INDEX]:'), `Server is listening on ${port}`)
+    console.log(chalk.green('[INDEX]:'), `Server is listening on ${port}`)
 })
 
 sockets(server)
