@@ -1,9 +1,12 @@
 import { generateTransaction } from './transaction'
+import * as transactions from '../socket/transactions'
 
 import chalk from 'chalk'
 import db from '../db'
 
-export async function start(transactionInterval = 250) {
+export const log = (...args: any[]) => console.log(chalk.yellow(`[MARKET]:`), ...args)
+
+export async function start(transactionInterval = 2000) {
     const { Transaction } = await db
     const lastTransaction = await Transaction.findOne().select(['trade']).sort({ createdAt: -1 }).limit(1)
 
@@ -16,6 +19,10 @@ export async function start(transactionInterval = 250) {
     setInterval(() => {
         price = generateTransaction(price)
 
-        // new Transaction({ trade: price, market: 'USD/SEK' }).save()
+        log(`new market price '${price}'`)
+
+        const document = new Transaction({ trade: price, market: 'USD/SEK' })
+
+        transactions.send(document)
     }, transactionInterval)
 }
