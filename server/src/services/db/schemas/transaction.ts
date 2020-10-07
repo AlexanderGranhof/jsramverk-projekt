@@ -20,7 +20,10 @@ const Transaction = new Schema({
         type: String,
         default: 'bot',
     },
-    createdAt: Date,
+    createdAt: {
+        type: Date,
+        default: new Date(),
+    },
 })
 
 Transaction.pre('save', function () {
