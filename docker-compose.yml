@@ -1,16 +1,32 @@
 version: '3'
 
-services: 
+services:
+    client:
+        build: ./client
+        entrypoint: npm run start
+        environment: 
+            - REACT_APP_NO_CLEAR_CONSOLE=true
+        stdin_open: true
+        volumes: 
+            - ./client:/client
+        ports: 
+            - 3000:3000
     server:
         build: ./server
         entrypoint: npm run dev
+        tty: true
         environment: 
             - MONGODB=mongodb
+            - PORT=3001
         volumes: 
             - ./server/src:/server/src
             - ./server/node_modules:/server/node_modules
         links: 
             - mongodb
+        ports: 
+            - 3001:3001
 
     mongodb:
         image: mongo:3.6-xenial
+        logging: 
+            driver: none
