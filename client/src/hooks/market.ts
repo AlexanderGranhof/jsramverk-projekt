@@ -1,20 +1,26 @@
 import socket from '../services/socket'
 import { useEffect, useState } from 'react'
+import { Candle } from '../models/market'
 
 export const useOHLC = () => {
-    const [transactions, setTransactions] = useState<any[]>([])
-    const [ohlc, setOhlc] = useState<any[]>([])
-
+    const [ohlc, setOhlc] = useState<Candle[]>([])
     const cleanup = () => {
-        socket.off("market_transaction")
+        socket.off('market_transaction')
     }
 
     useEffect(() => {
-        socket.on("market_transaction", (data: any[]) => {
-            console.log(data)
-            setTransactions((currentTranscations) => [...currentTranscations, data])
+        socket.emit('market_history', (data: any) => {
+            setOhlc(data)
+
+            socket.on('market_transaction', (data: any) => {
+                setOhlc((currentOHLCs) => [...currentOHLCs, data])
+            })
         })
 
         return cleanup
     }, [])
+
+    return {
+        ohlc,
+    }
 }
