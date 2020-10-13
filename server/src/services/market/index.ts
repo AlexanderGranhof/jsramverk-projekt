@@ -1,20 +1,24 @@
 import { generateTransaction } from './transaction'
 import * as transactions from '../socket/transactions'
-
+import ohlcHandler from './ohlc'
 import chalk from 'chalk'
 import db from '../db'
 
 export const log = (...args: any[]) => console.log(chalk.yellow(`[MARKET]:`), ...args)
 
-export async function start(transactionInterval = 2000) {
+export async function start(transactionInterval = 100) {
     const { Transaction } = await db
     const lastTransaction = await Transaction.findOne().select(['trade']).sort({ createdAt: -1 }).limit(1)
+    const allTransactions = await Transaction.find()
+
+    // ohlcHandler.loadPrevTransactions(allTransactions)
 
     if (lastTransaction === null) {
         console.log(chalk.yellow('Found no previous transactions'))
     }
 
-    let price: number
+    let price: number = lastTransaction ? parseFloat(lastTransaction.trade) : 100
+    let recentOHLC = 0
 
     setInterval(() => {
         price = generateTransaction(price)
@@ -23,6 +27,15 @@ export async function start(transactionInterval = 2000) {
 
         const document = new Transaction({ trade: price, market: 'USD/SEK' })
 
-        transactions.send(document)
+        ohlcHandler.addTransaction(document)
+
+        const ohlc = ohlcHandler.lastOHLC() as any
+
+        if (ohlc && ohlc.createdAt.getTime() !== recentOHLC) {
+            transactions.send(ohlc)
+            recentOHLC = ohlc.createdAt.getTime()
+        }
+
+        // document.save()
     }, transactionInterval)
 }
