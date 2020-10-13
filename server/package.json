@@ -28,6 +28,7 @@
     "@types/mongoose": "^5.7.36",
     "@types/socket.io": "^2.1.11",
     "chalk": "^4.1.0",
+    "dayjs": "^1.9.1",
     "express": "^4.17.1",
     "mongoose": "^5.10.8",
     "simplex-noise": "^2.4.0",
