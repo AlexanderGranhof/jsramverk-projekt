@@ -1,11 +1,4 @@
-import { Schema, Document } from 'mongoose'
-
-export interface ITransaction extends Document {
-    trade: string
-    market: string
-    user: string
-    createdAt: Date
-}
+import { Schema } from 'mongoose'
 
 const Transaction = new Schema({
     trade: {
