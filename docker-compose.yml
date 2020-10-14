@@ -19,8 +19,7 @@ services:
             - MONGODB=mongodb
             - PORT=3001
         volumes: 
-            - ./server/src:/server/src
-            - ./server/node_modules:/server/node_modules
+            - ./server:/server
         links: 
             - mongodb
         ports: 
