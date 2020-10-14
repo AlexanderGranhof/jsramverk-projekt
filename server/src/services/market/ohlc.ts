@@ -1,5 +1,5 @@
-import { ITransaction } from '../db/schemas/transaction'
 import dayjs from 'dayjs'
+import { Transaction } from '../../models'
 
 type OHLC = {
     open: number
@@ -10,7 +10,7 @@ type OHLC = {
 }
 
 class OHLCHandler {
-    transactions: ITransaction[]
+    transactions: Transaction[]
     ohlcs: OHLC[]
 
     constructor() {
@@ -18,12 +18,12 @@ class OHLCHandler {
         this.transactions = []
     }
 
-    loadPrevTransactions(prevTransactions: ITransaction[]) {
+    loadPrevTransactions(prevTransactions: Transaction[]) {
         this.transactions = [...this.transactions, ...prevTransactions]
         this.processTransactions(this.transactions)
     }
 
-    addTransaction(transaction: ITransaction) {
+    addTransaction(transaction: Transaction) {
         this.transactions.push(transaction)
 
         this.processTransactions(this.transactions)
@@ -33,7 +33,7 @@ class OHLCHandler {
         return this.ohlcs[this.ohlcs.length - 1]
     }
 
-    private processTransactions(transactions: ITransaction[]) {
+    private processTransactions(transactions: Transaction[]) {
         const ohlcs = transactions.reduce(
             (acc: any[], transaction) => {
                 const prev = acc.pop()
