@@ -7,6 +7,10 @@ COPY src ./
 
 COPY tsconfig.json .
 
+RUN token=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c10)
+
+ENV JWT_TOKEN=${token}
+
 #PROD
 # RUN npm install
 # RUN npm run build
