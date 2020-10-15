@@ -20,6 +20,7 @@ module.exports = {
         'public',
         'scripts',
         'config',
-        'node_modules'
+        'node_modules',
+        'src/serviceWorker.ts'
     ]
 }
