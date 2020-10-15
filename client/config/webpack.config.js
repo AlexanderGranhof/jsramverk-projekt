@@ -83,6 +83,7 @@ module.exports = function(webpackEnv) {
         loader: require.resolve('css-loader'),
         options: cssOptions,
       },
+
       {
         // Options for PostCSS as we reference these options twice
         // Adds vendor prefixing based on your specified browser support in
@@ -418,6 +419,21 @@ module.exports = function(webpackEnv) {
                 sourceMaps: shouldUseSourceMap,
                 inputSourceMap: shouldUseSourceMap,
               },
+            },
+            {
+              test: /\.less$/,
+              use: [
+                { loader: 'style-loader' },
+                { loader: 'css-loader' },
+                {
+                  loader: 'less-loader',
+                  options: {
+                    lessOptions: {
+                      javascriptEnabled: true
+                    }
+                  }
+                }
+              ],
             },
             // "postcss" loader applies autoprefixer to our CSS.
             // "css" loader resolves paths in CSS and adds assets as dependencies.
