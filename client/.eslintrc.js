@@ -16,4 +16,10 @@ module.exports = {
         '@typescript-eslint/explicit-function-return-type': 'off',
         'react/prop-types': 'off'
     },
+    ignorePatterns: [
+        'public',
+        'scripts',
+        'config',
+        'node_modules'
+    ]
 }
