@@ -8,6 +8,8 @@ const connection = mongoose.connect(`mongodb://${process.env.MONGODB || 'localho
     useUnifiedTopology: true,
 })
 
+mongoose.set('useFindAndModify', false)
+
 export default (async () => {
     const db = await connection
 
