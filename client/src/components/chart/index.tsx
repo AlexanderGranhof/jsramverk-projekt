@@ -50,10 +50,10 @@ CandleGroup.displayName = 'CandleGroup'
 const Chart: FunctionComponent<ChartProps> = (props) => {
     const { candles, caliber, domain } = props
     const margin = {
-        top: 100,
-        left: 100,
-        right: 100,
-        bottom: 100,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
     }
 
     const autoScroll = props.autoScroll ?? true
@@ -131,10 +131,12 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
         }
 
         if (newCandles.length) {
-            return setSquashedCandles([...squashedCandles.slice(0, -1), ...squashCandles(newCandles, ...candleScale)])
+            squashCandles(newCandles, ...candleScale).then((newSquashedCandles) => {
+                setSquashedCandles([...squashedCandles.slice(0, -1), ...newSquashedCandles])
+            })
+        } else {
+            squashCandles(candles, ...candleScale).then(setSquashedCandles)
         }
-
-        setSquashedCandles(squashCandles(candles, ...candleScale))
     }, [candles])
 
     useEffect(() => {
@@ -196,20 +198,26 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
 
     selection?.call(zoomBehaviour)
 
-    const transform = autoScroll ? `translate(${panTransform}, 0)` : zoomState ? `translate(${zoomState.x}, 0)` : ''
+    let transform = ``
+
+    if (autoScroll) {
+        if (chartWidth > width) {
+            transform = `translate(${panTransform}, 0)`
+        } else {
+            transform = `translate(${panTransform + minAxisMargin}, 0)`
+        }
+    } else if (zoomState) {
+        transform = `translate(${zoomState.x}, 0)`
+    }
 
     useEffect(() => {
-        setPanTransform(width - (caliber + candleMargin) * squashedCandles.length)
-    }, [candles])
+        if (chartWidth > width) {
+            setPanTransform(width - chartWidth)
+        }
+    }, [squashedCandles, candles])
 
     return (
-        <svg
-            style={{ border: '1px solid red' }}
-            ref={selectionRef}
-            transform={`translate(${margin.left}, ${margin.top})`}
-            width={width}
-            height={height}
-        >
+        <svg ref={selectionRef} transform={`translate(${margin.left}, ${margin.top})`} width={width} height={height}>
             <defs>
                 <clipPath id="clip">
                     <rect transform={`translate(${minAxisMargin}, 0)`} width={width - minAxisMargin} height={height} />
