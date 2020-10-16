@@ -11,7 +11,7 @@ export async function start(transactionInterval = 100) {
     const lastTransaction = await Transaction.findOne().select(['trade']).sort({ createdAt: -1 }).limit(1)
     const allTransactions = await Transaction.find()
 
-    // ohlcHandler.loadPrevTransactions(allTransactions)
+    ohlcHandler.loadPrevTransactions(allTransactions)
 
     if (lastTransaction === null) {
         console.log(chalk.yellow('Found no previous transactions'))
@@ -23,7 +23,7 @@ export async function start(transactionInterval = 100) {
     setInterval(() => {
         price = generateTransaction(price)
 
-        log(`new market price '${price}'`)
+        // log(`new market price '${price}'`)
 
         const document = new Transaction({ trade: price, market: 'USD/SEK' })
 
