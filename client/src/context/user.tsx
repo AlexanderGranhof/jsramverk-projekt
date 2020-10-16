@@ -3,11 +3,12 @@ import React, { createContext, FunctionComponent, useState } from 'react'
 type UserState = {
     name: string
     authenticated: boolean
+    balance: number
 }
 
 export type UserContext = [UserState, React.Dispatch<React.SetStateAction<UserState>>]
 
-const baseContext: UserState = { name: '', authenticated: false }
+const baseContext: UserState = { name: '', authenticated: false, balance: 0 }
 
 export const userContext = createContext<any>([])
 
