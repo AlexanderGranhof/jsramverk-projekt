@@ -1,8 +1,8 @@
-import React, { useEffect, FunctionComponent, useContext } from 'react'
+import React, { useEffect, FunctionComponent, useContext, useState } from 'react'
 import styles from './App.module.scss'
 import './antd.less'
 import { Layout, Menu } from 'antd'
-import { Link, Switch, Route, useLocation, useHistory } from 'react-router-dom'
+import { Link, Switch, Route, useLocation, useHistory, Redirect } from 'react-router-dom'
 import { UserOutlined } from '@ant-design/icons'
 import { userContext, UserContext } from './context/user'
 import * as user from './services/user'
@@ -19,21 +19,25 @@ const App: FunctionComponent = () => {
     const location = useLocation()
     const history = useHistory()
     const [userState, setUserState] = useContext<UserContext>(userContext)
+    const [hasVerified, setHasVerified] = useState(false)
 
     useEffect(() => {
         console.log('IN HERE')
-        user.validate().then((authenticated) => {
-            return setUserState({
-                ...userState,
-                authenticated,
+        user.validate().then(([response, data]) => {
+            console.log(data)
+            setUserState({
+                ...data,
+                authenticated: response.ok,
             })
+
+            setHasVerified(true)
         })
     }, [])
 
     const handleSignOut = async () => {
         await user.logout()
 
-        setUserState({ authenticated: false, name: '' })
+        setUserState({ balance: 0, authenticated: false, name: '' })
         history.push('/')
     }
 
@@ -84,6 +88,7 @@ const App: FunctionComponent = () => {
                     <Route exact path="/" component={HomeComponent} />
                     <Route exact path="/signin" component={SignInComponent} />
                     <Route exact path="/register" component={RegisterComponent} />
+                    {hasVerified && <Route path="*" component={() => <Redirect to="/" />} />}
                 </Switch>
             </Content>
         </Layout>
