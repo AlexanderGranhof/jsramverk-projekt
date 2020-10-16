@@ -41,3 +41,7 @@ export const validateJWT = (req: Request) => {
         return false
     }
 }
+
+export const parseJWT = (req: Request) => {
+    return jwt.verify(req.signedCookies?.token, JWT_SECRET)
+}
