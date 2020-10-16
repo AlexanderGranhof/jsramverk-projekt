@@ -7,23 +7,35 @@ import { UserSchema } from '../../models'
 
 const router = express.Router()
 
-router.get(
+router.post(
     '/register',
     validate.joi(UserSchema),
     wrapAsync(async (req, res) => {
         try {
-            await new (await db).User(req.body).save()
+            const { User } = await db
+
+            const userAlreadyExists = !!(await User.find(req.body))
+
+            if (userAlreadyExists) {
+                return res.status(400).json({
+                    message: 'username already exists',
+                })
+            }
+
+            await new User(req.body).save()
 
             return res.status(200).send()
         } catch (e) {
             console.error(e)
 
-            return res.status(500).send('unable to create user')
+            return res.status(500).json({
+                message: 'an error occured',
+            })
         }
     }),
 )
 
-router.get(
+router.post(
     '/signin',
     validate.joi(UserSchema),
     wrapAsync(async (req, res) => {
@@ -39,6 +51,12 @@ router.get(
         return res.status(200).send()
     }),
 )
+
+router.post('/signout', (req, res) => {
+    jwt.removeJWT(res)
+
+    return res.status(200).send()
+})
 
 router.get('/validate/cookie', (req, res) => {
     return res.json({
