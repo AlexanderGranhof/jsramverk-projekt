@@ -10,6 +10,7 @@ export type Transaction = {
 export type User = {
     name: string
     password: string
+    balance: number
 }
 
 export const UserSchema = joi.object({
