@@ -41,8 +41,10 @@ const Register: FunctionComponent<RouteComponentProps> = (props) => {
         }
 
         if (response.ok) {
+            const data = await response.json()
+
             message.success(`Welcome ${name}!`)
-            setUserState({ name, authenticated: true })
+            setUserState({ ...data, authenticated: true })
 
             return gsap.to(form, {
                 y: -40,
@@ -53,7 +55,7 @@ const Register: FunctionComponent<RouteComponentProps> = (props) => {
             })
         }
 
-        return message.error('incorrect name or password')
+        return message.error('username already exists')
     }
 
     return (
@@ -94,7 +96,9 @@ const Register: FunctionComponent<RouteComponentProps> = (props) => {
                             alignItems: 'center',
                         }}
                     >
-                        <Button htmlType="submit">Register</Button>
+                        <Button type="primary" htmlType="submit">
+                            Register
+                        </Button>
                         <span>or</span>
                         <Link to="/signin">sign in</Link>
                     </div>

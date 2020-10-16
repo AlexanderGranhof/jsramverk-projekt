@@ -41,8 +41,10 @@ const Signin: FunctionComponent<RouteComponentProps> = (props) => {
         }
 
         if (response.ok) {
+            const data = await response.json()
+
             message.success(`Welcome back ${name}!`)
-            setUserState({ name, authenticated: true })
+            setUserState({ ...data, authenticated: true })
 
             return gsap.to(form, {
                 y: -40,
@@ -94,7 +96,9 @@ const Signin: FunctionComponent<RouteComponentProps> = (props) => {
                             alignItems: 'center',
                         }}
                     >
-                        <Button htmlType="submit">Sign in</Button>
+                        <Button type="primary" htmlType="submit">
+                            Sign in
+                        </Button>
                         <span>or</span>
                         <Link to="/register">register as a new user</Link>
                     </div>
