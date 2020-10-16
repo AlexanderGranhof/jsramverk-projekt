@@ -1,6 +1,7 @@
 import express from 'express'
 import * as jwt from '../../services/jwt'
 import { wrapAsync } from '../middleware/async'
+import { authenticate } from '../middleware/auth'
 import db from '../../services/db'
 import * as validate from '../middleware/validate'
 import { UserSchema } from '../../models'
@@ -14,17 +15,20 @@ router.post(
         try {
             const { User } = await db
 
-            const userAlreadyExists = !!(await User.find(req.body))
+            const userAlreadyExists = await User.findOne(req.body)
 
-            if (userAlreadyExists) {
+            if (!!userAlreadyExists) {
                 return res.status(400).json({
                     message: 'username already exists',
                 })
             }
 
-            await new User(req.body).save()
+            const createdUser = await new User(req.body).save()
 
-            return res.status(200).send()
+            return res.status(200).send({
+                name: createdUser.name,
+                balance: createdUser.balance,
+            })
         } catch (e) {
             console.error(e)
 
@@ -46,9 +50,14 @@ router.post(
             return res.status(404).send()
         }
 
-        jwt.generateJWT(res, { name: result.name })
+        const userData = {
+            balance: result.balance,
+            name: result.name,
+        }
 
-        return res.status(200).send()
+        jwt.generateJWT(res, userData)
+
+        return res.status(200).json(userData)
     }),
 )
 
@@ -58,10 +67,45 @@ router.post('/signout', (req, res) => {
     return res.status(200).send()
 })
 
-router.get('/validate/cookie', (req, res) => {
-    return res.json({
-        valid: jwt.validateJWT(req),
-    })
-})
+router.get(
+    '/validate/cookie',
+    wrapAsync(async (req, res) => {
+        try {
+            const { name } = jwt.parseJWT(req) as Record<string, string>
+            const { User } = await db
+
+            const user = await User.findOne({ name })
+
+            if (!user) {
+                return res.status(401).json({})
+            }
+
+            return res.json({ name, balance: user.balance })
+        } catch {
+            return res.status(401).json({})
+        }
+    }),
+)
+
+router.post(
+    '/balance',
+    authenticate,
+    wrapAsync(async (req, res) => {
+        const { add } = req.body
+
+        if (!add) {
+            return res.status(400).send()
+        }
+
+        const { User } = await db
+
+        await User.findOneAndUpdate({ name: req.jwtBody.name }, { $inc: { balance: add } })
+        const updatedData = await User.findOne({ name: req.jwtBody.name })
+
+        return res.json({
+            balance: updatedData?.balance,
+        })
+    }),
+)
 
 export default router
