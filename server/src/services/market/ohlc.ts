@@ -85,17 +85,17 @@ class OHLCHandler {
             [{}],
         )
 
-        this.ohlcs.forEach((ohlc) => {
-            const { open, high, low, close } = ohlc
+        // this.ohlcs.forEach((ohlc) => {
+        //     const { open, high, low, close } = ohlc
 
-            if (open < low || high < low || close < low) {
-                console.log('LOW', ohlc)
-            }
+        //     if (open < low || high < low || close < low) {
+        //         console.log('LOW', ohlc)
+        //     }
 
-            if (open > high || low > high || close > high) {
-                console.log('HIGH', ohlc)
-            }
-        })
+        //     if (open > high || low > high || close > high) {
+        //         console.log('HIGH', ohlc)
+        //     }
+        // })
 
         if (ohlcs[ohlcs.length - 1].close) {
             this.transactions = []
