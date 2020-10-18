@@ -3,7 +3,7 @@ import { Candle as CandleModel } from '../../models/market'
 import Candle from './candle'
 import * as d3 from 'd3'
 import { OpUnitType } from 'dayjs'
-import { squashCandles } from '../../services/candles'
+import socket from '../../services/socket'
 
 type ChartProps = {
     candles: CandleModel[]
@@ -12,6 +12,7 @@ type ChartProps = {
     height: number
     domain: [number, number]
     autoScroll?: boolean
+    onLoad?: () => void
 }
 
 type CandleProps = {
@@ -82,6 +83,11 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
     const [squashedCandles, setSquashedCandles] = useState<CandleModel[]>([])
     const [panTransform, setPanTransform] = useState(0)
     const [candleScale, setCandleScale] = useState<[number, OpUnitType]>([5, 'second'])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        props.onLoad && props.onLoad()
+    }, [loading])
 
     const yAxis = d3.axisLeft(scaleY).ticks(5).tickSize(-width)
 
@@ -114,29 +120,10 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
     }
 
     useEffect(() => {
-        const lastSquash = squashedCandles[squashedCandles.length - 1]
-        let newCandles: CandleModel[] = []
-
-        if (lastSquash) {
-            let sliceIndex = 0
-
-            for (let i = candles.length - 1; i >= 0; i--) {
-                if (candles[i].createdAt === lastSquash.createdAt) {
-                    sliceIndex = i
-                    break
-                }
-            }
-
-            newCandles = candles.slice(sliceIndex)
-        }
-
-        if (newCandles.length) {
-            squashCandles(newCandles, ...candleScale).then((newSquashedCandles) => {
-                setSquashedCandles([...squashedCandles.slice(0, -1), ...newSquashedCandles])
-            })
-        } else {
-            squashCandles(candles, ...candleScale).then(setSquashedCandles)
-        }
+        socket.emit('market_squash', candleScale, (data: any) => {
+            setSquashedCandles(data)
+            loading && setLoading(false)
+        })
     }, [candles])
 
     useEffect(() => {
