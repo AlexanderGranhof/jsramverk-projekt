@@ -16,15 +16,14 @@ const Market: FunctionComponent = () => {
     const width = window.innerWidth - contentMargin * 2
 
     useEffect(() => {
-        if (!containerRef.current) return
+        if (!containerRef.current || loading) return
 
         gsap.to(containerRef.current, {
             opacity: 1,
             duration: 1,
-            delay: 3,
-            onStart: () => setLoading(false),
+            delay: 0.5,
         })
-    }, [containerRef])
+    }, [containerRef, loading])
 
     useEffect(() => {
         const values = ohlc.map((transaction) => [transaction.low, transaction.high]).flat() as number[]
@@ -52,6 +51,7 @@ const Market: FunctionComponent = () => {
                     candles={ohlc}
                     caliber={10}
                     domain={domain}
+                    onLoad={() => setLoading(false)}
                 />
             </div>
         </React.Fragment>
