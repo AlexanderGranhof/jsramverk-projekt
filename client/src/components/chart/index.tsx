@@ -13,6 +13,10 @@ type ChartProps = {
     domain: [number, number]
     autoScroll?: boolean
     onLoad?: () => void
+    onScaleChange?: (scale: [number, OpUnitType]) => void
+    liveCandle?: any
+    onSquash?: () => void
+    liveCandleLastTransaction?: any | null
 }
 
 type CandleProps = {
@@ -49,12 +53,12 @@ const CandleGroup = React.memo<CandleProps>((props) => {
 CandleGroup.displayName = 'CandleGroup'
 
 const Chart: FunctionComponent<ChartProps> = (props) => {
-    const { candles, caliber, domain } = props
+    const { candles, caliber, domain, liveCandle } = props
     const margin = {
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
+        top: 20,
+        left: 20,
+        right: 20,
+        bottom: 20,
     }
 
     const autoScroll = props.autoScroll ?? true
@@ -89,6 +93,10 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
         props.onLoad && props.onLoad()
     }, [loading])
 
+    useEffect(() => {
+        props.onScaleChange && props.onScaleChange(candleScale)
+    }, [candleScale])
+
     const yAxis = d3.axisLeft(scaleY).ticks(5).tickSize(-width)
 
     const incrementCandleScale = () => {
@@ -121,7 +129,13 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
 
     useEffect(() => {
         socket.emit('market_squash', candleScale, (data: any) => {
-            setSquashedCandles(data)
+            setSquashedCandles((prevSquashed) => {
+                if (data.length > prevSquashed.length) {
+                    props.onSquash && props.onSquash()
+                }
+
+                return data
+            })
             loading && setLoading(false)
         })
     }, [candles])
@@ -220,6 +234,20 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
                         scaleBody={scaleBody}
                         scaleY={scaleY}
                     />
+                    {liveCandle[0] && (
+                        <Candle
+                            key="live"
+                            {...{
+                                candle: liveCandle[0],
+                                caliber,
+                                scaleY,
+                                scaleBody,
+                                index: squashedCandles.length,
+                                margin: candleMargin,
+                                lastTransaction: props.liveCandleLastTransaction,
+                            }}
+                        />
+                    )}
                 </g>
             </g>
         </svg>

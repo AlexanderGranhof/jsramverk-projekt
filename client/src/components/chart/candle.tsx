@@ -9,10 +9,11 @@ type CandleProps = {
     scaleBody: d3.ScaleLinear<number, number>
     index: number
     margin: number
+    lastTransaction?: any
 }
 
 const Candle: FunctionComponent<CandleProps> = (props) => {
-    const { caliber, candle, scaleBody, scaleY, index, margin } = props
+    const { caliber, candle, scaleBody, scaleY, index, margin, lastTransaction } = props
     const toolTipRef = useRef(null)
     const candleRef = useRef(null)
 
@@ -53,7 +54,17 @@ const Candle: FunctionComponent<CandleProps> = (props) => {
 
     const x = (caliber + margin) * index + caliber / 2
 
-    const color = open > close ? '#f5222d' : '#52c41a'
+    let color = open > close ? '#f5222d' : '#52c41a'
+
+    let rectY = scaleY(Math.max(open, close))
+    let rectHeight = scaleBody(Math.max(open, close) - Math.min(open, close))
+
+    // If we are given a last transaction, we are a live candle
+    if (lastTransaction) {
+        rectY = scaleY(Math.max(open, lastTransaction.trade))
+        rectHeight = scaleBody(Math.max(open, close) - Math.min(open, lastTransaction.trade))
+        color = open > lastTransaction.trade ? '#f5222d' : '#52c41a'
+    }
 
     return (
         <g>
@@ -71,9 +82,9 @@ const Candle: FunctionComponent<CandleProps> = (props) => {
                 ref={candleRef}
                 onClick={() => console.log(candle)}
                 x={(caliber + margin) * index}
-                y={scaleY(Math.max(open, close))}
+                y={rectY}
                 width={caliber}
-                height={scaleBody(Math.max(open, close) - Math.min(open, close))}
+                height={rectHeight}
                 fill={color}
             />
         </g>
