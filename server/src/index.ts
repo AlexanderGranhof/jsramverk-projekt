@@ -9,7 +9,7 @@ import chalk from 'chalk'
 import sockets from './services/socket'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
-import cors from 'cors'
+import customCors from './api/middleware/cors'
 
 import userRoute from './api/routes/user'
 
@@ -21,7 +21,8 @@ const app = express()
 app.use(express.json())
 app.use(cookieParser(process.env.JWT_SECRET))
 app.use(morgan(loggingMode))
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
+
+app.use(customCors)
 
 app.use('/user', userRoute)
 
