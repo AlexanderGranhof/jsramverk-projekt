@@ -81,7 +81,7 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
     const selectionRef = useRef<SVGSVGElement>(null)
     const yAxisRef = useRef<SVGGElement>(null)
     const [selection, setSelection] = useState<d3.Selection<SVGSVGElement, unknown, null, undefined>>()
-    const [zoomState, setZoomState] = useState<d3.ZoomTransform>()
+    const [zoomState, setZoomState] = useState<number>(0)
     const [scaleBody, setScaleBody] = useState<d3.ScaleLinear<number, number>>(() => initScaleBody)
     const [scaleY, setScaleY] = useState<d3.ScaleLinear<number, number>>(() => initScaleY)
     const [squashedCandles, setSquashedCandles] = useState<CandleModel[]>([])
@@ -149,7 +149,7 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
         if (!yAxisRef.current || !selection) return
     }, [candles, yAxisRef])
 
-    const chartWidth = (caliber + candleMargin) * squashedCandles.length
+    const chartWidth = (caliber + candleMargin) * (squashedCandles.length + 1)
 
     useEffect(() => {
         setScaleBody(() => {
@@ -194,10 +194,16 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
 
             const state = d3.zoomTransform(node)
 
-            setZoomState(state)
+            setZoomState(state.x)
         })
 
     selection?.call(zoomBehaviour)
+
+    useEffect(() => {
+        if (autoScroll === false) {
+            setZoomState(panTransform)
+        }
+    }, [autoScroll])
 
     let transform = ``
 
@@ -208,7 +214,7 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
             transform = `translate(${panTransform + minAxisMargin}, 0)`
         }
     } else if (zoomState) {
-        transform = `translate(${zoomState.x}, 0)`
+        transform = `translate(${zoomState}, 0)`
     }
 
     useEffect(() => {
@@ -218,7 +224,13 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
     }, [squashedCandles, candles])
 
     return (
-        <svg ref={selectionRef} transform={`translate(${margin.left}, ${margin.top})`} width={width} height={height}>
+        <svg
+            style={{ border: '1px solid rgba(255, 255, 255, 0.1)' }}
+            ref={selectionRef}
+            transform={`translate(${margin.left}, ${margin.top})`}
+            width={width}
+            height={height}
+        >
             <defs>
                 <clipPath id="clip">
                     <rect transform={`translate(${minAxisMargin}, 0)`} width={width - minAxisMargin} height={height} />
