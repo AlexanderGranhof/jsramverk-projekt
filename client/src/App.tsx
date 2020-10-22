@@ -22,9 +22,7 @@ const App: FunctionComponent = () => {
     const [hasVerified, setHasVerified] = useState(false)
 
     useEffect(() => {
-        console.log('IN HERE')
         user.validate().then(([response, data]) => {
-            console.log(data)
             setUserState({
                 ...data,
                 authenticated: response.ok,
