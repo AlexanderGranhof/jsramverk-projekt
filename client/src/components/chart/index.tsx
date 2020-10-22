@@ -184,9 +184,9 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
             const node = selection?.node()
 
             if (d.sourceEvent instanceof WheelEvent) {
-                const direction = d.sourceEvent.deltaY > 0
+                // const direction = d.sourceEvent.deltaY > 0
 
-                direction ? decrementCandleScale() : incrementCandleScale()
+                // direction ? decrementCandleScale() : incrementCandleScale()
                 return
             }
 
