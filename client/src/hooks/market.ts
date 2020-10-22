@@ -12,7 +12,7 @@ export const useOHLC = () => {
         socket.emit('market_history', (data: any) => {
             setOhlc(data)
 
-            socket.on('market_transaction', (data: any) => {
+            socket.on('market_ohlc', (data: any) => {
                 setOhlc((currentOHLCs) => [...currentOHLCs, data])
             })
         })
