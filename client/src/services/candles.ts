@@ -62,3 +62,58 @@ export const squashCandles = (candles: any, value: number, unit: OpUnitType): Pr
         resolve(ohlcs)
     })
 }
+
+export const createCandles = (transactions: any, value: number, unit: OpUnitType) => {
+    const ohlcs = transactions.reduce(
+        (acc: any[], transaction: any) => {
+            const prev = acc.pop()
+
+            if (prev.close) {
+                return [...acc, prev, { open: prev.close }]
+            }
+
+            if (!prev.open) {
+                prev.open = transaction.trade
+            }
+
+            if (!prev.high) {
+                prev.high = transaction.trade
+            }
+
+            if (!prev.low) {
+                prev.low = transaction.trade
+            }
+
+            if (!prev.createdAt) {
+                prev.createdAt = transaction.createdAt
+            }
+
+            const newOHLC = { ...prev }
+
+            if (transaction.trade > newOHLC.high) {
+                newOHLC.high = transaction.trade
+            }
+
+            if (transaction.trade < newOHLC.low) {
+                newOHLC.low = transaction.trade
+            }
+
+            const diff = dayjs(transaction.createdAt).diff(dayjs(newOHLC.createdAt), unit)
+
+            if (diff >= value) {
+                return [
+                    ...acc,
+                    {
+                        ...newOHLC,
+                        close: transaction.trade,
+                    },
+                ]
+            }
+
+            return [...acc, newOHLC]
+        },
+        [{}],
+    )
+
+    return ohlcs
+}
