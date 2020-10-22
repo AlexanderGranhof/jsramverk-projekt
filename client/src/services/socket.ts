@@ -1,3 +1,4 @@
 import SocketIO from 'socket.io-client'
+import { host } from './fetch'
 
-export default SocketIO('http://localhost:3001')
+export default SocketIO(host)
