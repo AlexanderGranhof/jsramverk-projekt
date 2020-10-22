@@ -32,9 +32,11 @@ export async function start(transactionInterval = 100) {
         const ohlc = ohlcHandler.lastOHLC() as any
 
         if (ohlc && ohlc.createdAt.getTime() !== recentOHLC) {
-            transactions.send(ohlc)
+            transactions.sendOHLC(ohlc)
             recentOHLC = ohlc.createdAt.getTime()
         }
+
+        transactions.sendTransaction({ trade: price, market: 'USD/SEK', createdAt: document.createdAt })
 
         // document.save()
     }, transactionInterval)
