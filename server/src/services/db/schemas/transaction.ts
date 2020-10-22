@@ -13,6 +13,11 @@ const Transaction = new Schema({
         type: String,
         default: 'bot',
     },
+    closeTrade: Number,
+    closed: {
+        type: Boolean,
+        default: false,
+    },
     createdAt: {
         type: Date,
         default: () => new Date(),
