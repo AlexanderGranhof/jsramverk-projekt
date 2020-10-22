@@ -11,14 +11,14 @@ const Profile: FunctionComponent = () => {
 
     const handleAddBalance = async () => {
         try {
-            const response = await user.addBalance(10000)
+            const response = await user.addBalance(100)
             const data = await response.json()
 
             setUserState({
                 ...userState,
                 balance: data.balance,
             })
-            message.success('Added $10,000 to your account')
+            message.success('Added $100 to your account')
         } catch {
             message.error('Unable to add balance to user account')
         }
@@ -33,19 +33,23 @@ const Profile: FunctionComponent = () => {
     useEffect(() => {
         if (!containerRef.current) return
 
-        gsap.from(containerRef.current, { y: 50, opacity: 0, visibility: 'visible' })
-        gsap.to(containerRef.current, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out', visibility: 'visible' })
+        gsap.from(containerRef.current, { y: 50, x: '-50%', opacity: 0, visibility: 'visible' })
+        gsap.to(containerRef.current, {
+            y: 0,
+            x: '-50%',
+            opacity: 1,
+            duration: 0.5,
+            ease: 'power3.out',
+            visibility: 'visible',
+        })
     }, [containerRef])
 
     return (
-        <div style={{ visibility: 'hidden' }} ref={containerRef}>
+        <div className={styles['profile']} style={{ visibility: 'hidden' }} ref={containerRef}>
             <h1 className={styles['name']}>{userState.name}</h1>
-
             <div className={styles['balance-container']}>
                 <p>Balance</p>
-
                 <h1 className={styles['current-balance']}>{formatter.format(userState.balance)}</h1>
-
                 <Button onClick={handleAddBalance} type="primary">
                     Add balance
                 </Button>
