@@ -130,7 +130,7 @@ class OHLCHandler {
 
                 const diff = dayjs(transaction.createdAt).diff(dayjs(newOHLC.createdAt), 'second')
 
-                if (diff >= 2) {
+                if (diff >= 5) {
                     return [
                         ...acc,
                         {
