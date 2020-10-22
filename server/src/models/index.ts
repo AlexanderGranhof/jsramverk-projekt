@@ -5,6 +5,8 @@ export type Transaction = {
     market: string
     user: string
     createdAt: Date
+    closed?: boolean
+    closedAt?: number
 }
 
 export type User = {
