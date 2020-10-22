@@ -62,7 +62,7 @@ const Candle: FunctionComponent<CandleProps> = (props) => {
     // If we are given a last transaction, we are a live candle
     if (lastTransaction) {
         rectY = scaleY(Math.max(open, lastTransaction.trade))
-        rectHeight = scaleBody(Math.max(open, close) - Math.min(open, lastTransaction.trade))
+        rectHeight = scaleBody(Math.max(open, lastTransaction.trade) - Math.min(open, lastTransaction.trade))
         color = open > lastTransaction.trade ? '#f5222d' : '#52c41a'
     }
 
