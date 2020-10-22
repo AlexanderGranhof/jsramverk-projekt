@@ -6,7 +6,7 @@ import db from '../db'
 
 export const log = (...args: any[]) => console.log(chalk.yellow(`[MARKET]:`), ...args)
 
-export async function start(transactionInterval = 100) {
+export async function start(transactionInterval = 250) {
     const { Transaction } = await db
     const lastTransaction = await Transaction.findOne().select(['trade']).sort({ createdAt: -1 }).limit(1)
     const allTransactions = await Transaction.find()
@@ -38,6 +38,6 @@ export async function start(transactionInterval = 100) {
 
         transactions.sendTransaction({ trade: price, market: 'USD/SEK', createdAt: document.createdAt })
 
-        // document.save()
+        document.save()
     }, transactionInterval)
 }
