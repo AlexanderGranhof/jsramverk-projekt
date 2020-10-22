@@ -21,6 +21,9 @@ export const initialize = (newIO: Server) => {
     })
 }
 
-export const send = (transaction: any) => {
+export const sendTransaction = (transaction: any) => {
     io.emit('market_transaction', transaction)
+}
+export const sendOHLC = (ohlc: any) => {
+    io.emit('market_ohlc', ohlc)
 }
