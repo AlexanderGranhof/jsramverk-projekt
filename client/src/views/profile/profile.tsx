@@ -19,7 +19,7 @@ const Profile: FunctionComponent = () => {
                 balance: data.balance,
             })
             message.success('Added $100 to your account')
-        } catch {
+        } catch (err) {
             message.error('Unable to add balance to user account')
         }
     }
@@ -49,7 +49,9 @@ const Profile: FunctionComponent = () => {
             <h1 className={styles['name']}>{userState.name}</h1>
             <div className={styles['balance-container']}>
                 <p>Balance</p>
-                <h1 className={styles['current-balance']}>{formatter.format(userState.balance)}</h1>
+                <h1 id="balance" className={styles['current-balance']}>
+                    {formatter.format(userState.balance)}
+                </h1>
                 <Button onClick={handleAddBalance} type="primary">
                     Add balance
                 </Button>
