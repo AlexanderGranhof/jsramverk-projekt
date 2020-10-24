@@ -37,7 +37,5 @@ services:
         environment: 
             - MONGODB=mongodb
             - PORT=3001
-        volumes: 
-            - ./server:/server
         links: 
             - mongodb
