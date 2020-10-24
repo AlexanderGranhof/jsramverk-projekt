@@ -25,7 +25,14 @@ router.post(
 
             const createdUser = await new User(req.body).save()
 
-            return res.status(200).send({
+            const userData = {
+                balance: createdUser.balance,
+                name: createdUser.name,
+            }
+
+            jwt.generateJWT(res, userData)
+
+            return res.status(201).send({
                 name: createdUser.name,
                 balance: createdUser.balance,
             })
@@ -45,6 +52,8 @@ router.post(
     wrapAsync(async (req, res) => {
         const { User } = await db
         const result = await User.findOne(req.body)
+
+        console.log(result, req.body)
 
         if (result === null) {
             return res.status(404).send()
