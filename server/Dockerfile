@@ -6,6 +6,7 @@ COPY package*.json ./
 COPY src ./src
 
 COPY tsconfig.json .
+COPY jest.config.js .
 
 RUN token=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c10)
 
