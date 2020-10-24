@@ -8,8 +8,9 @@
     "start": "node build/index.js",
     "dev": "ts-node-dev --respawn src/index.ts",
     "db:init": "ts-node-dev src/services/db/scripts/init.ts",
-    "test": "jest --collect-coverage src",
-    "test:integration": "jest --collect-coverage src/api/integration"
+    "test:unit": "jest --collect-coverage src",
+    "test:integration": "jest --collect-coverage src/api/integration",
+    "test": "npm run test:unit && npm run test:integration"
   },
   "keywords": [],
   "author": "",
