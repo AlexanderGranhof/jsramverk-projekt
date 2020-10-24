@@ -7,8 +7,9 @@
     "build": "tsc",
     "start": "node build/index.js",
     "dev": "ts-node-dev --respawn src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "db:init": "ts-node-dev src/services/db/scripts/init.ts"
+    "db:init": "ts-node-dev src/services/db/scripts/init.ts",
+    "test": "jest --collect-coverage src",
+    "test:integration": "jest --collect-coverage src/api/integration"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +32,7 @@
     "@types/jsonwebtoken": "^8.5.0",
     "@types/mongoose": "^5.7.36",
     "@types/morgan": "^1.9.1",
+    "@types/node-fetch": "^2.5.7",
     "@types/socket.io": "^2.1.11",
     "chalk": "^4.1.0",
     "cookie-parser": "^1.4.5",
@@ -38,11 +40,14 @@
     "dayjs": "^1.9.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jest": "^26.6.1",
     "joi": "^17.2.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.8",
     "morgan": "^1.10.0",
+    "node-fetch": "^2.6.1",
     "simplex-noise": "^2.4.0",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "ts-jest": "^26.4.1"
   }
 }
