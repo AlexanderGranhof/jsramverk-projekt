@@ -12,10 +12,12 @@ type OHLC = {
 class OHLCHandler {
     transactions: Transaction[]
     ohlcs: OHLC[]
+    large: number
 
     constructor() {
         this.ohlcs = []
         this.transactions = []
+        this.large = 0
     }
 
     loadPrevTransactions(prevTransactions: Transaction[]) {
@@ -94,6 +96,14 @@ class OHLCHandler {
     }
 
     private processTransactions(transactions: Transaction[]) {
+        if (transactions.length > 3000) {
+            this.large += 1
+        }
+
+        if (this.large > 10) {
+            transactions = transactions.slice(-1000)
+        }
+
         const ohlcs = transactions.reduce(
             (acc: any[], transaction) => {
                 const prev = acc.pop()
