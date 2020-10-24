@@ -29,3 +29,15 @@ services:
         image: mongo:3.6-xenial
         logging: 
             driver: none
+
+    test:
+        build: ./server
+        entrypoint: npm run test
+        tty: true
+        environment: 
+            - MONGODB=mongodb
+            - PORT=3001
+        volumes: 
+            - ./server:/server
+        links: 
+            - mongodb
