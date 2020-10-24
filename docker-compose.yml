@@ -37,5 +37,8 @@ services:
         environment: 
             - MONGODB=mongodb
             - PORT=3001
+            - TEST_DOMAIN=http://server:3001
         links: 
-            - mongodb
+            - server
+        depends_on: 
+            - server
