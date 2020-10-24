@@ -26,6 +26,9 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world!
 
+      - name: test docker-compose
+        run: docker-compose --version
+
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
