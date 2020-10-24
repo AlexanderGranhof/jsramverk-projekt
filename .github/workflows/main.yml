@@ -30,7 +30,7 @@ jobs:
         run: docker-compose up -d && sleep 10
 
       - name: Run server tests
-        run: cd server && npm run test
+        run: cd server && npm install && npm run test
       
       - name: Run client tests
-        run: cd servr && npm run test
+        run: cd client && npm install && npm run test
