@@ -151,6 +151,10 @@ const Market: FunctionComponent = () => {
 
     return (
         <React.Fragment>
+            <div className={styles['header']}>
+                <h1>JSC/PHPC</h1>
+                <h2>Trading JavaScript coin for PHP coin</h2>
+            </div>
             <div className={styles['user-controls']}>
                 <div className={styles['controls']}>
                     <div className={styles['auto-scroll']}>
