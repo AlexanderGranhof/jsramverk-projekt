@@ -3,7 +3,7 @@ FROM node:14
 WORKDIR /server
 
 COPY package*.json ./
-COPY src ./
+COPY src ./src
 
 COPY tsconfig.json .
 
