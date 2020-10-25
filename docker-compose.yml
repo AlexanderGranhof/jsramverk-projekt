@@ -21,6 +21,7 @@ services:
         environment: 
             - MONGODB=mongodb
             - PORT=3001
+            - JWT_SECRET=CzYkstejACqaKmCmIzoeVlVp
         # volumes: 
             # - ./server:/server
         links: 
@@ -46,7 +47,6 @@ services:
             - MONGODB=mongodb
             - PORT=3001
             - TEST_DOMAIN=http://server:3001
-            - JWT_SECRET=CzYkstejACqaKmCmIzoeVlVp
         links: 
             - server
         depends_on: 
