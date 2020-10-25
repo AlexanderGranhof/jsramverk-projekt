@@ -24,7 +24,10 @@ jobs:
 
       - name: start server
         run: docker-compose up -d server
-
+      
+      - name: Print logs
+        run: docker-compose logs server
+      
       - name: List all running containers
         run: docker ps -a
 
