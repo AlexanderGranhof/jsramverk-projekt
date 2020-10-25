@@ -25,6 +25,9 @@ jobs:
       - name: start server
         run: docker-compose up -d server
 
+      - name: List all running containers
+        run: docker ps -a
+
       - name: Start containers for server and run tests
         run: cd server && npm install && npm run test
       
