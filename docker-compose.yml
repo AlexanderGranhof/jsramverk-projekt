@@ -1,5 +1,8 @@
 version: '3'
 
+networks:
+    jsramverk:
+
 services:
     client:
         build: ./client
@@ -24,16 +27,20 @@ services:
             - mongodb
         ports: 
             - 3001:3001
+        networks:
+            - jsramverk
 
     mongodb:
         image: mongo:3.6-xenial
         logging: 
             driver: none
+        networks:
+            - jsramverk
 
     test:
         build: ./server
         entrypoint: []
-        command: sh -c "sleep 60 && npm run test"
+        command: sh -c "sleep 20 && npm run test"
         tty: true
         environment: 
             - MONGODB=mongodb
@@ -43,3 +50,5 @@ services:
             - server
         depends_on: 
             - server
+        networks:
+            - jsramverk
