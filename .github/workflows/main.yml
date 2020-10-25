@@ -33,6 +33,9 @@ jobs:
 
       - name: Start containers for server and run tests
         run: docker-compose up test
+
+      - name: Print logs
+        run: docker-compose logs server
       
       - name: List all running containers
         run: docker ps -a
