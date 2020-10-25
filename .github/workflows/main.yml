@@ -31,5 +31,8 @@ jobs:
       - name: Run client tests
         run: cd client && npm install && npm run test
 
+      - name: List all running containers
+        run: docker ps -a
+
       - name: Stop containers
         run: docker-compose down
