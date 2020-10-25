@@ -8,7 +8,7 @@ COPY src ./src
 COPY tsconfig.json .
 COPY jest.config.js .
 
-RUN token=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c10)
+RUN token=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c24)
 
 ENV JWT_TOKEN=${token}
 
