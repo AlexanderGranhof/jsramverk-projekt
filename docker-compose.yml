@@ -33,7 +33,7 @@ services:
     test:
         build: ./server
         entrypoint: []
-        command: sh -c "sleep 10 && npm run test"
+        command: sh -c "sleep 10 && ls"
         tty: true
         environment: 
             - MONGODB=mongodb
