@@ -22,7 +22,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: start server
+      - name: Start server
         run: docker-compose up -d server
       
       - name: Print logs
@@ -42,7 +42,6 @@ jobs:
       
       - name: Run client tests
         run: cd client && npm install && npm run test
-
 
       - name: Stop containers
         run: docker-compose down
