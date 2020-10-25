@@ -1,5 +1,8 @@
 version: '3'
 
+networks:
+    jsramverk:
+
 services:
     client:
         build: ./client
@@ -18,14 +21,35 @@ services:
         environment: 
             - MONGODB=mongodb
             - PORT=3001
-        volumes: 
-            - ./server:/server
+            - JWT_SECRET=CzYkstejACqaKmCmIzoeVlVp
+        # volumes: 
+            # - ./server:/server
         links: 
             - mongodb
         ports: 
             - 3001:3001
+        networks:
+            - jsramverk
 
     mongodb:
         image: mongo:3.6-xenial
         logging: 
             driver: none
+        networks:
+            - jsramverk
+
+    test:
+        build: ./server
+        entrypoint: []
+        command: sh -c "sleep 30 && npm run test"
+        tty: true
+        environment: 
+            - MONGODB=mongodb
+            - PORT=3001
+            - TEST_DOMAIN=http://server:3001
+        links: 
+            - server
+        depends_on: 
+            - server
+        networks:
+            - jsramverk
