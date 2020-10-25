@@ -21,8 +21,8 @@ services:
         environment: 
             - MONGODB=mongodb
             - PORT=3001
-        volumes: 
-            - ./server:/server
+        # volumes: 
+            # - ./server:/server
         links: 
             - mongodb
         ports: 
@@ -40,7 +40,7 @@ services:
     test:
         build: ./server
         entrypoint: []
-        command: sh -c "sleep 20 && npm run test"
+        command: sh -c "sleep 5 && npm run test"
         tty: true
         environment: 
             - MONGODB=mongodb
