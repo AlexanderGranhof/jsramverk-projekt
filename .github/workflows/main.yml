@@ -32,7 +32,7 @@ jobs:
         run: docker ps -a
 
       - name: Start containers for server and run tests
-        run: cd server && npm install && npm run test
+        run: docker-compose up test
       
       - name: List all running containers
         run: docker ps -a
