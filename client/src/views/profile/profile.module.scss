@@ -1,11 +1,12 @@
 .profile {
     background-color: #1f1f1f;
     padding: 60px;
+    margin: 20px 0;
     position: absolute;
-    min-width: 400px;
+    min-width: 300px;
     text-align: center;
     left: 50%;
-    transform: translateX(50%);
+    transform: translateX(-50%);
 }
 
 .name {

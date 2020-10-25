@@ -89,18 +89,14 @@ const Signin: FunctionComponent<RouteComponentProps> = (props) => {
                     <Input type="password" />
                 </Form.Item>
                 <Form.Item style={{ marginTop: '40px' }}>
-                    <div
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                        }}
-                    >
+                    <div>
                         <Button type="primary" htmlType="submit">
                             Sign in
                         </Button>
-                        <span>or</span>
-                        <Link to="/register">register as a new user</Link>
+                        <div className={styles['register-container']}>
+                            <span>or</span>
+                            <Link to="/register">register as a new user</Link>
+                        </div>
                     </div>
                 </Form.Item>
             </Form>

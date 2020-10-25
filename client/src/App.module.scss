@@ -3,6 +3,12 @@
 body, main, section {
     font-family: 'Roboto', sans-serif;
     background-color: #141414 !important;
+    overflow: hidden;
+}
+
+main {
+    min-height: 100vh !important;
+    position: relative;
 }
 
 .logo {
@@ -37,14 +43,35 @@ body, main, section {
 }
 
 .content {
-    margin: 0 100px;
+    margin: 0 75px;
     margin-top: 64px;
 }
 
-.sign-in {
-    float: right;
+@media only screen and (max-width: 600px) {
+    .content {
+        margin: 0 40px;
+    }
 
-    span {
-        margin-right: 0 !important;
+    ul > li {
+        padding: 0 10px !important;
+    }
+
+    .logo {
+        margin: 0;
+    }
+}
+
+// .sign-in {
+//     float: right;
+
+//     span {
+//         margin-right: 0 !important;
+//     }
+// }
+
+
+@media only screen and (max-width: 665px) {
+    .navbar-title {
+        display: none;
     }
 }

@@ -1,11 +1,16 @@
 import React, { useEffect, FunctionComponent, useContext, useState } from 'react'
-import styles from './App.module.scss'
 import './antd.less'
-import { Layout, Menu } from 'antd'
+import styles from './App.module.scss'
+import { Layout, Menu, message } from 'antd'
 import { Link, Switch, Route, useLocation, useHistory, Redirect } from 'react-router-dom'
 import { UserOutlined } from '@ant-design/icons'
 import { userContext, UserContext } from './context/user'
 import * as user from './services/user'
+
+message.config({
+    top: 75,
+    duration: 1.5,
+})
 
 import HomeComponent from './views/home/home'
 import SignInComponent from './views/signin/signin'
@@ -44,7 +49,7 @@ const App: FunctionComponent = () => {
             <Header className={styles['header']}>
                 <div className={styles['logo']}>
                     <img src="logo.svg" />
-                    <span>Tagalong</span>
+                    <span className={styles['navbar-title']}>Tagalong</span>
                 </div>
                 <Menu
                     className={styles['menu']}
@@ -67,14 +72,10 @@ const App: FunctionComponent = () => {
                         </Menu.Item>
                     )}
                     {userState.authenticated ? (
-                        <Menu.SubMenu className={styles['sign-in']} icon={<UserOutlined />}>
-                            <Menu.Item onClick={handleSignOut}>Sign out</Menu.Item>
-                        </Menu.SubMenu>
+                        <Menu.Item onClick={handleSignOut}>Sign out</Menu.Item>
                     ) : (
                         <Menu.Item className={styles['sign-in']} key="/signin">
-                            <Link to="/signin">
-                                <UserOutlined />
-                            </Link>
+                            <Link to="/signin">Sign in</Link>
                         </Menu.Item>
                     )}
                 </Menu>

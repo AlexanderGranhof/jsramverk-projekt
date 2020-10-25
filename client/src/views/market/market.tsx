@@ -29,9 +29,10 @@ const Market: FunctionComponent = () => {
         buy: false,
     })
 
-    const contentMargin = 50
+    const contentMargin = window.innerWidth <= 600 ? 40 : 75
 
     const width = window.innerWidth - contentMargin * 2
+    // const width = '100%'
 
     useEffect(() => {
         if (!containerRef.current) return

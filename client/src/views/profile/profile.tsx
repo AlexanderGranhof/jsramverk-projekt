@@ -33,10 +33,9 @@ const Profile: FunctionComponent = () => {
     useEffect(() => {
         if (!containerRef.current) return
 
-        gsap.from(containerRef.current, { y: 50, x: '-50%', opacity: 0, visibility: 'visible' })
+        gsap.from(containerRef.current, { y: 50, opacity: 0, visibility: 'visible' })
         gsap.to(containerRef.current, {
             y: 0,
-            x: '-50%',
             opacity: 1,
             duration: 0.5,
             ease: 'power3.out',
@@ -45,16 +44,18 @@ const Profile: FunctionComponent = () => {
     }, [containerRef])
 
     return (
-        <div className={styles['profile']} style={{ visibility: 'hidden' }} ref={containerRef}>
-            <h1 className={styles['name']}>{userState.name}</h1>
-            <div className={styles['balance-container']}>
-                <p>Balance</p>
-                <h1 id="balance" className={styles['current-balance']}>
-                    {formatter.format(userState.balance)}
-                </h1>
-                <Button onClick={handleAddBalance} type="primary">
-                    Add balance
-                </Button>
+        <div className={styles['profile']} style={{ visibility: 'hidden' }}>
+            <div ref={containerRef} className={styles['profile-inner']}>
+                <h1 className={styles['name']}>{userState.name}</h1>
+                <div className={styles['balance-container']}>
+                    <p>Balance</p>
+                    <h1 id="balance" className={styles['current-balance']}>
+                        {formatter.format(userState.balance)}
+                    </h1>
+                    <Button onClick={handleAddBalance} type="primary">
+                        Add balance
+                    </Button>
+                </div>
             </div>
         </div>
     )
