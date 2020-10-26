@@ -129,9 +129,7 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
     }
 
     useEffect(() => {
-        console.log('squashing', market)
         socket.emit('market_squash', market, candleScale, (data: any) => {
-            // console.log('sss', data[data.length - 1])
             setSquashedCandles((prevSquashed) => {
                 if (data.length > prevSquashed.length) {
                     props.onSquash && props.onSquash()
@@ -227,9 +225,6 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
         }
     }, [squashedCandles, candles])
 
-    useEffect(() => {
-        // console.log('in candle', squashedCandles[squashedCandles.length - 1])
-    }, [squashedCandles])
     return (
         <svg
             style={{ border: '1px solid rgba(255, 255, 255, 0.1)' }}

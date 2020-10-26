@@ -41,8 +41,6 @@ const Candle: FunctionComponent<CandleProps> = (props) => {
         color = open > lastTransaction.trade ? '#f5222d' : '#52c41a'
     }
 
-    // console.log(index, (caliber + margin) * index, rectY, open, close)
-
     return (
         <g>
             <div ref={toolTipRef}>im a tooltip</div>

@@ -26,8 +26,6 @@ export const initialize = (newIO: Server) => {
         socket.on('market_history', async (market: OlhcHanderTypes, cb) => {
             const marketHandler = ohlcHandlers[market]
 
-            console.log(market)
-
             if (!marketHandler) {
                 return console.error(`Invalid market ${market}`)
             }
@@ -41,8 +39,6 @@ export const initialize = (newIO: Server) => {
             if (!marketHandler) {
                 return console.error(`Invalid market ${market}`)
             }
-
-            console.log(market, value, unit)
 
             const squashedData = marketHandler.squashTransactions(value, unit)
 

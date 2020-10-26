@@ -3,8 +3,6 @@ import nodeFetch, { Response } from 'node-fetch'
 const port = process.env.PORT ?? 3001
 export const domain = process.env.TEST_DOMAIN ?? `http://localhost:${port}`
 
-console.log(domain)
-
 export const fetch = async (pathname: string, postBody?: Record<string, any>) => {
     const body = postBody ? JSON.stringify(postBody) : undefined
 

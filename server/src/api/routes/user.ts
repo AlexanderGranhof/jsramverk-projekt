@@ -53,8 +53,6 @@ router.post(
         const { User } = await db
         const result = await User.findOne(req.body)
 
-        console.log(result, req.body)
-
         if (result === null) {
             return res.status(404).send()
         }

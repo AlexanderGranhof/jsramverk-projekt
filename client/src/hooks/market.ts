@@ -19,14 +19,8 @@ export const useOHLC = () => {
     const [market, setMarket] = useState('jscphpc')
 
     const cleanup = () => {
-        // socket.off('market_transaction')
         socket.off('market_ohlc')
-        console.log('cleanup')
     }
-
-    useEffect(() => {
-        // console.log(ohlc)
-    }, [ohlc])
 
     useEffect(() => {
         socket.emit('market_history', market, (data: any) => {

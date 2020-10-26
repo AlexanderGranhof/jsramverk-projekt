@@ -157,7 +157,6 @@ const Market: FunctionComponent = () => {
 
     useEffect(() => {
         setLatestTransactions([])
-        console.log(ohlc[ohlc.length - 1])
     }, [ohlc])
 
     useEffect(() => {
