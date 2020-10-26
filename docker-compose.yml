@@ -41,6 +41,21 @@ services:
         networks:
             - jsramverk
 
+    test-server:
+        build: ./server
+        entrypoint: npm run dev
+        tty: true
+        environment: 
+            - MONGODB=mongodb
+            - PORT=3001
+            - JWT_SECRET=CzYkstejACqaKmCmIzoeVlVp
+        links: 
+            - mongodb
+        ports: 
+            - 3001:3001
+        networks:
+            - jsramverk
+
     test:
         build: ./server
         entrypoint: []
@@ -49,10 +64,10 @@ services:
         environment: 
             - MONGODB=mongodb
             - PORT=3001
-            - TEST_DOMAIN=http://server:3001
+            - TEST_DOMAIN=http://test-server:3001
         links: 
-            - server
+            - test-server
         depends_on: 
-            - server
+            - test-server
         networks:
             - jsramverk
