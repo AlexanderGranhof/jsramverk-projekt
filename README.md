@@ -5,8 +5,8 @@
 
 ## Setup
 1. Have `docker` and `docker-compose` installed
-2. Have the ports 80 and 3001 open, or change the ports in the `docker-compose.yml` file
-3. Run `docker-compose up client` to start the application
+2. Have the ports 80 and 3001 open, or change the ports in the `docker-compose.prod.yml` file
+3. Run `docker-compose -f docker-compose.prod.yml up` to start the application
 4. Visit [http://localhost](http://localhost) to view the application
 
 ## Requirement 1 - Backend
