@@ -1,0 +1,36 @@
+version: '3'
+
+networks:
+    jsramverk:
+
+services:
+    client:
+        build:
+            context: ./client
+            dockerfile: Dockerfile.prod
+        ports: 
+            - 80:80
+        depends_on: 
+            - server
+
+    server:
+        build:
+            context: ./server
+            dockerfile: Dockerfile.prod
+        tty: true
+        environment: 
+            - MONGODB=mongodb
+            - PORT=3001
+        links: 
+            - mongodb
+        ports: 
+            - 3001:3001
+        networks:
+            - jsramverk
+
+    mongodb:
+        image: mongo:3.6-xenial
+        logging: 
+            driver: none
+        networks:
+            - jsramverk

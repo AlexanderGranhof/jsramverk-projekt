@@ -7,16 +7,16 @@ import { UserOutlined } from '@ant-design/icons'
 import { userContext, UserContext } from './context/user'
 import * as user from './services/user'
 
-message.config({
-    top: 75,
-    duration: 1.5,
-})
-
 import HomeComponent from './views/home/home'
 import SignInComponent from './views/signin/signin'
 import RegisterComponent from './views/register/register'
 import MarketComponent from './views/market/market'
 import ProfileComponent from './views/profile/profile'
+
+message.config({
+    top: 75,
+    duration: 1.5,
+})
 
 const { Header, Content } = Layout
 
