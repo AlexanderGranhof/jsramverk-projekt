@@ -17,6 +17,7 @@ type ChartProps = {
     liveCandle?: any
     onSquash?: () => void
     liveCandleLastTransaction?: any | null
+    market: string
 }
 
 type CandleProps = {
@@ -53,7 +54,7 @@ const CandleGroup = React.memo<CandleProps>((props) => {
 CandleGroup.displayName = 'CandleGroup'
 
 const Chart: FunctionComponent<ChartProps> = (props) => {
-    const { candles, caliber, domain, liveCandle } = props
+    const { candles, caliber, domain, liveCandle, market } = props
     const margin = {
         top: 20,
         left: 20,
@@ -128,7 +129,9 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
     }
 
     useEffect(() => {
-        socket.emit('market_squash', candleScale, (data: any) => {
+        console.log('squashing', market)
+        socket.emit('market_squash', market, candleScale, (data: any) => {
+            // console.log('sss', data[data.length - 1])
             setSquashedCandles((prevSquashed) => {
                 if (data.length > prevSquashed.length) {
                     props.onSquash && props.onSquash()
@@ -149,7 +152,8 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
         if (!yAxisRef.current || !selection) return
     }, [candles, yAxisRef])
 
-    const chartWidth = (caliber + candleMargin) * (squashedCandles.length + 1)
+    // const chartWidth = (caliber + candleMargin) * (squashedCandles.length + 1)
+    const chartWidth = (caliber + candleMargin) * (candles.length + 1)
 
     useEffect(() => {
         setScaleBody(() => {
@@ -223,6 +227,9 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
         }
     }, [squashedCandles, candles])
 
+    useEffect(() => {
+        // console.log('in candle', squashedCandles[squashedCandles.length - 1])
+    }, [squashedCandles])
     return (
         <svg
             style={{ border: '1px solid rgba(255, 255, 255, 0.1)' }}
@@ -241,7 +248,8 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
                 <g transform={transform}>
                     <CandleGroup
                         caliber={caliber}
-                        candles={squashedCandles.length ? squashedCandles : candles}
+                        // candles={squashedCandles.length ? squashedCandles : candles}
+                        candles={candles}
                         margin={candleMargin}
                         scaleBody={scaleBody}
                         scaleY={scaleY}
@@ -254,7 +262,8 @@ const Chart: FunctionComponent<ChartProps> = (props) => {
                                 caliber,
                                 scaleY,
                                 scaleBody,
-                                index: squashedCandles.length,
+                                // index: squashedCandles.length,
+                                index: candles.length,
                                 margin: candleMargin,
                                 lastTransaction: props.liveCandleLastTransaction,
                             }}

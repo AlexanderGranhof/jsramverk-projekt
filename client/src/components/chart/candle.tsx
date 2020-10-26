@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useRef, useEffect, MouseEvent } from 'react'
 import { Candle as CandleModel } from '../../models/market'
 import * as d3 from 'd3'
+import { domain } from 'process'
 
 type CandleProps = {
     candle: CandleModel
@@ -22,32 +23,6 @@ const Candle: FunctionComponent<CandleProps> = (props) => {
     const low = candle.low || open
     const close = candle.close || open
 
-    useEffect(() => {
-        if (!candleRef.current || !toolTipRef.current) return
-
-        d3.select(candleRef.current)
-            .on('mouseover', (event: any) => {
-                const tooltip = d3
-                    .select('body')
-                    .append('div')
-                    .attr('id', 'tooltip')
-                    .attr(
-                        'style',
-                        `position: absolute; width: auto; padding: 0 20px; height: auto; background-color: white; left: ${
-                            event.pageX + 20
-                        }px; top: ${event.pageY + 20}px`,
-                    )
-
-                tooltip.append('p').text(`open: ${candle.open}`)
-                tooltip.append('p').text(`high: ${candle.high}`)
-                tooltip.append('p').text(`low: ${candle.low}`)
-                tooltip.append('p').text(`close: ${candle.close}`)
-            })
-            .on('mouseout', (event: any) => {
-                d3.select('#tooltip').remove()
-            })
-    }, [candleRef, toolTipRef])
-
     if (!open) {
         return null
     }
@@ -65,6 +40,8 @@ const Candle: FunctionComponent<CandleProps> = (props) => {
         rectHeight = scaleBody(Math.max(open, lastTransaction.trade) - Math.min(open, lastTransaction.trade))
         color = open > lastTransaction.trade ? '#f5222d' : '#52c41a'
     }
+
+    // console.log(index, (caliber + margin) * index, rectY, open, close)
 
     return (
         <g>

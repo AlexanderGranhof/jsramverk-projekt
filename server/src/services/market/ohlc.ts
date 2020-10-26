@@ -174,4 +174,8 @@ class OHLCHandler {
     }
 }
 
-export default new OHLCHandler()
+export default {
+    JscPhpc: new OHLCHandler(),
+    PyCCppc: new OHLCHandler(),
+    JarCCsC: new OHLCHandler(),
+}

@@ -15,8 +15,17 @@
     }
 }
 
+.select-market {
+    margin-top: 20px;
+}
+
+.chart {
+    opacity: 0;
+    position: relative;
+}
+
 .user-controls {
-    margin-bottom: 40px;
+    margin-bottom: 0px;
     padding: 0 20px;
     display: grid;
     grid-template-columns: 1fr 1fr;
