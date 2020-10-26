@@ -31,7 +31,7 @@ it('renders market view', () => {
     })
 
     // Make sure the chart rendered
-    expect(root?.querySelector('svg')).not.toBe(null)
+    expect(root?.querySelector('svg')).toBeInTheDocument()
 
     // Make sure the title and subtitle rendered
     expect(root?.querySelector('div > h1')?.textContent).toBe('JSC/PHPC')

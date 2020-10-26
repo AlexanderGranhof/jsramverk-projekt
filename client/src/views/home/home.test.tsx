@@ -24,6 +24,7 @@ it('renders home view', () => {
         render(<Home />, root)
     })
 
+    expect(root?.querySelector('div > header > img')).toBeInTheDocument()
     expect(root?.querySelector('div > header > h1')?.textContent).toBe('TAGALONG')
     expect(root?.querySelector('div > header > p')?.textContent).toBe('Commision free and easy to use trading platform')
 })
