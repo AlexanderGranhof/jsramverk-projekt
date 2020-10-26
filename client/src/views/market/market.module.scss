@@ -35,6 +35,7 @@
 
     .metrics {
         place-self: end;
+        text-align: right;
         width: 100%;
 
         .balance {
@@ -56,5 +57,9 @@
         place-items: center;
         text-align: center;
         row-gap: 30px;
+        
+        .metrics {
+            text-align: center;
+        }
     }
 }

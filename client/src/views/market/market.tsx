@@ -186,6 +186,9 @@ const Market: FunctionComponent = () => {
                     </h1>
                 </div>
             </div>
+            <span style={{ width: '100%', textAlign: 'center', opacity: 0.5, display: 'block' }}>
+                Market OHLCs at 5 second interval
+            </span>
             <div ref={containerRef} style={{ opacity: 0 }}>
                 <Chart
                     autoScroll={autoScroll}
