@@ -2,6 +2,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/AlexanderGranhof/jsramverk-projekt/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AlexanderGranhof/jsramverk-projekt/?branch=master)
 
 # Tagalong
+Tagalong is a simulated realtime forex-like exchange websites for virtual coins named after common programming languages. The name tagalong stems from the disney movie Robinhood, where tagalong is a character. Why Robinhood? There is a popular stock exchange app called robinhood.
 
 ## Setup
 1. Have `docker` and `docker-compose` installed
@@ -10,10 +11,12 @@
 4. Visit [http://localhost](http://localhost) to view the application
 
 ## Requirement 1 - Backend
-For my backend i chose to use node.js written in Typescript as my choice of language along with the express http library. For authentication i chose to use JWT that are stored in cookies.
+For my backend i chose to use node.js written in Typescript as my choice of language along with the express http library. For authentication i chose to use JWT that are stored in cookies. My reasoning behind my choices are that i have used express many times before and i am comfortable with it. I was considering using fastify as its more modern that express and is much faster, but i knew i would be spending most of my time on the chart, so i chose the safe option and went with express. Lastly for JWT ive grown to like it over the cookies. Before i had to deal with caching the JWT in localstorage. But i've learnt that you should only store it in a httpOnly cookie and nowhere else as it is very unsafe. And you do not have to deal with the session storage in the backend, which makes it easier.
+
+I've also chosen to use typescript on both frontend and backend. It makes the intellisense much better and prevents countless bugs from occuring since it has typechecking.
 
 ## Requirement 2 - Frontend
-For the frontend i chose to use react written in Typescript, i am already familiar with React and i chose to use it so i can deepen my knowledge about react.
+For the frontend i chose to use react written in Typescript, i am already familiar with React and i chose to use it so i can deepen my knowledge about react. For the chart i chose to built it from scratch with the help of d3.js. d3 provides data scaling tools which are really helpful when making charts. I made the chart using svg. The combination of d3, svg and react makes it very easy to have a realtime chart.
 
 ## Requirement 3 - Realtime
 I chose to use socket.io as i have used this library before this course and its easy to use. I chose to do most of the transactions through sockets, even selling and purchasing. What i dont know how to do properly yet is how you should structure the event names. How can you avoid event name clashing when you have >100 events. This I do not know yet and wish to learn more about.
