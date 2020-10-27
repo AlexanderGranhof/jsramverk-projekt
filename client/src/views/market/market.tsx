@@ -220,9 +220,9 @@ const Market: FunctionComponent = () => {
                         >
                             {Object.values(marketToMarketNames).map((name) => {
                                 return (
-                                    <Option key={name} value={name}>
+                                    <Select.Option key={name} value={name}>
                                         {name}
-                                    </Option>
+                                    </Select.Option>
                                 )
                             })}
                         </Select>
